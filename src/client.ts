@@ -11,6 +11,7 @@ import { Forms } from './resources/Forms';
 import { Conversions } from './resources/Conversions';
 import { LandingPages } from './resources/LandingPages';
 import { Workflows } from './resources/Workflows';
+import { Webhooks } from './resources/Webhooks';
 
 export interface ClientConfig extends Omit<HttpClientConfig, 'logger'> {
   logger?: any;
@@ -27,6 +28,7 @@ export class Client {
   private _conversions?: Conversions;
   private _landingPages?: LandingPages;
   private _workflows?: Workflows;
+  private _webhooks?: Webhooks;
 
   constructor(config: ClientConfig = {}) {
     this.httpClient = new HttpClient({
@@ -99,5 +101,12 @@ export class Client {
       this._workflows = new Workflows(this.httpClient);
     }
     return this._workflows;
+  }
+
+  public get webhooks(): Webhooks {
+    if (!this._webhooks) {
+      this._webhooks = new Webhooks(this.httpClient);
+    }
+    return this._webhooks;
   }
 }
