@@ -39,7 +39,7 @@ export class HttpClient {
   private logger?: Logger;
 
   constructor(config: HttpClientConfig = {}) {
-    this.baseUrl = (config.baseUrl || 'https://kirimel.com').replace(/\/$/, '');
+    this.baseUrl = (config.baseUrl || 'https://kirimel.com/api').replace(/\/$/, '');
     this.apiKey = config.apiKey || process.env.KIRIMEL_API_KEY;
     this.timeout = config.timeout || 30000;
     this.retries = config.retries || 3;

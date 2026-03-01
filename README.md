@@ -16,7 +16,7 @@ import { Client } from '@hualiglobal/kirimel-node-sdk';
 // Initialize the client
 const client = new Client({
   apiKey: 'sk_test_xxx', // Or set KIRIMEL_API_KEY env variable
-  baseUrl: 'https://kirimel.com',
+  baseUrl: 'https://kirimel.com/api',
   timeout: 30000,
   retries: 3
 });
