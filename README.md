@@ -99,11 +99,14 @@ const stats = await client.campaigns.stats(id);
 // List subscribers for a list
 const subscribers = await client.subscribers.list(listId, { limit: 50 });
 
+// List all subscribers
+const allSubscribers = await client.subscribers.listAll({ limit: 50 });
+
 // Get single subscriber
 const subscriber = await client.subscribers.get(id);
 
-// Add subscriber to a list
-const subscriber = await client.subscribers.create(listId, {
+// Add subscriber
+const subscriber = await client.subscribers.create({
   email: 'user@example.com',
   first_name: 'John',
   last_name: 'Doe'

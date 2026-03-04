@@ -10,12 +10,16 @@ export class Subscribers {
     return this.httpClient.get(`lists/${listId}/subscribers`, params);
   }
 
+  public async listAll(params?: Record<string, any>): Promise<any> {
+    return this.httpClient.get('subscribers', params);
+  }
+
   public async get(id: number): Promise<any> {
     return this.httpClient.get(`subscribers/${id}`);
   }
 
-  public async create(listId: number, data: Record<string, any>): Promise<any> {
-    return this.httpClient.post(`lists/${listId}/subscribers`, data);
+  public async create(data: Record<string, any>): Promise<any> {
+    return this.httpClient.post('subscribers', data);
   }
 
   public async update(id: number, data: Record<string, any>): Promise<any> {
@@ -23,7 +27,7 @@ export class Subscribers {
   }
 
   public async delete(id: number): Promise<any> {
-    return this.httpClient.post(`subscribers/${id}/delete`);
+    return this.httpClient.delete(`subscribers/${id}`);
   }
 
   public async unsubscribe(id: number): Promise<any> {

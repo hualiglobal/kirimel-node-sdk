@@ -23,7 +23,7 @@ export class Lists {
   }
 
   public async delete(id: number): Promise<any> {
-    return this.httpClient.post(`lists/${id}/delete`);
+    return this.httpClient.delete(`lists/${id}`);
   }
 
   public async stats(id: number): Promise<any> {
