@@ -1,6 +1,6 @@
 {
   "name": "@hualiglobal/kirimel-node-sdk",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Official KiriMel Node.js SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,13 +20,13 @@
   ],
   "author": "KiriMel <support@kirimel.com>",
   "license": "MIT",
-  "homepage": "https://github.com/kirimel/kirimel-node-sdk",
+  "homepage": "https://github.com/hualiglobal/kirimel-node-sdk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kirimel/kirimel-node-sdk"
+    "url": "https://github.com/hualiglobal/kirimel-node-sdk"
   },
   "bugs": {
-    "url": "https://github.com/kirimel/kirimel-node-sdk/issues"
+    "url": "https://github.com/hualiglobal/kirimel-node-sdk/issues"
   },
   "dependencies": {
     "node-fetch": "^3.3.0"
