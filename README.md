@@ -424,6 +424,57 @@ const nodeTypes = await client.workflows.nodeTypes();
 const data = await client.workflows.getData(id);
 ```
 
+### Email (Transactional)
+
+Send transactional emails with attachment support:
+
+```typescript
+// Send transactional email
+const result = await client.email.send({
+  to: 'user@example.com',
+  subject: 'Welcome to our service!',
+  html: '<h1>Welcome!</h1><p>Thanks for signing up.</p>',
+  text: 'Welcome! Thanks for signing up.',
+  from_name: 'My App',
+  reply_to: 'support@example.com',
+  cc: 'cc@example.com',
+  bcc: ['bcc1@example.com', 'bcc2@example.com'],
+  attachments: [
+    {
+      name: 'invoice.pdf',
+      content: fs.readFileSync('/path/to/invoice.pdf').toString('base64')
+    },
+    {
+      name: 'report.csv',
+      content: fs.readFileSync('/path/to/report.csv').toString('base64')
+    }
+  ]
+});
+
+// Response includes message_id and tracking_id
+console.log(`Message ID: ${result.message_id}`);
+console.log(`Tracking ID: ${result.tracking_id}`);
+
+// Send to multiple recipients
+const result2 = await client.email.send({
+  to: ['user1@example.com', 'user2@example.com'],
+  subject: 'Team update',
+  html: '<p>Here is the latest update.</p>'
+});
+
+// Get SES send quota
+const quota = await client.email.quota();
+console.log(`Remaining: ${quota.remaining}`);
+console.log(`Max 24h: ${quota.max_24_hour_send}`);
+console.log(`Utilization: ${quota.utilization_percent}%`);
+
+// Get verified emails
+const verified = await client.email.verifiedEmails();
+
+// Verify a new email address
+const verifyResult = await client.email.verifyEmail('new@example.com');
+```
+
 ## Error Handling
 
 ```typescript
@@ -478,7 +529,7 @@ MIT License
 
 ## Support
 
-- Documentation: https://docs.kirimel.com
+- Documentation: https://kirimel.com/api-docs
 - GitHub: https://github.com/hualiglobal/kirimel-node-sdk
 - npm: https://www.npmjs.com/package/@hualiglobal/kirimel-node-sdk
 - Issues: https://github.com/hualiglobal/kirimel-node-sdk/issues
