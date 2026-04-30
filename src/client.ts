@@ -12,6 +12,7 @@ import { Conversions } from './resources/Conversions';
 import { LandingPages } from './resources/LandingPages';
 import { Workflows } from './resources/Workflows';
 import { Webhooks } from './resources/Webhooks';
+import { Email } from './resources/Email';
 
 export interface ClientConfig extends Omit<HttpClientConfig, 'logger'> {
   logger?: any;
@@ -29,6 +30,7 @@ export class Client {
   private _landingPages?: LandingPages;
   private _workflows?: Workflows;
   private _webhooks?: Webhooks;
+  private _email?: Email;
 
   constructor(config: ClientConfig = {}) {
     this.httpClient = new HttpClient({
@@ -108,5 +110,12 @@ export class Client {
       this._webhooks = new Webhooks(this.httpClient);
     }
     return this._webhooks;
+  }
+
+  public get email(): Email {
+    if (!this._email) {
+      this._email = new Email(this.httpClient);
+    }
+    return this._email;
   }
 }
