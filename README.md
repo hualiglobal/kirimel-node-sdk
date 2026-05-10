@@ -1,6 +1,14 @@
 # KiriMel Node.js SDK
 
-Official Node.js SDK for KiriMel Email Marketing API.
+Official Node.js SDK for KiriMel Email Marketing API & Loyalty API.
+
+## Features
+
+- **Email API**: Manage campaigns, subscribers, lists, templates, forms, workflows & more
+- **Loyalty API**: Customer loyalty with points, vouchers, tiers, and wallet management
+- **Unified Client**: Single SDK for both APIs with different authentication methods
+- **TypeScript**: Full type definitions
+- **Retry Logic**: Built-in exponential backoff for failed requests
 
 ## Installation
 
@@ -419,6 +427,150 @@ const nodeTypes = await client.workflows.nodeTypes();
 
 // Get workflow data
 const data = await client.workflows.getData(id);
+```
+
+## Loyalty API
+
+The Loyalty API uses HMAC SHA256 signature authentication for secure POS integration. The SDK handles signature calculation automatically.
+
+### Authentication
+
+```typescript
+// Email API credentials (required)
+const client = new Client({
+  apiKey: 'sk_test_xxx'
+});
+
+// Loyalty API credentials (optional - only if using loyalty features)
+const client = new Client({
+  apiKey: 'sk_test_xxx',
+  clientKey: 'cli_test_xxx',        // Or KIRIMEL_LOYALTY_CLIENT_KEY env var
+  clientSecret: 'your_secret_here'  // Or KIRIMEL_LOYALTY_CLIENT_SECRET env var
+});
+```
+
+### Customers
+
+```typescript
+// Register a new customer
+const customer = await client.loyaltyCustomers.register({
+  phone: '+60123456789',
+  name: 'John Doe',
+  email: 'john@example.com',
+  birthDate: '1990-05-15',  // Optional
+  qrCode: 'CUSTOMER_123'     // Optional
+});
+
+// Look up customer by phone
+const customer = await client.loyaltyCustomers.lookup({
+  phone: '+60123456789'
+});
+
+// Get customer profile
+const profile = await client.loyaltyCustomers.get(customerId);
+
+// Get customer transactions
+const transactions = await client.loyaltyCustomers.transactions(customerId);
+
+// Manually adjust points
+await client.loyaltyCustomers.adjust(customerId, {
+  points: 50,
+  reference: 'MANUAL_ADJUST_001',
+  description: 'Goodwill gesture',
+  adjusted_by: 'Admin'
+});
+
+// Get customer tier
+const tier = await client.loyaltyCustomers.tier(customerId);
+
+// List customers
+const customers = await client.loyaltyCustomers.list({
+  page: 1,
+  per_page: 50,
+  tier: 'gold'
+});
+```
+
+### Points & Wallet
+
+```typescript
+// Award points
+const earn = await client.loyaltyPoints.earn({
+  customer_id: customerId,
+  points: 100,
+  amount: 50.50,
+  reference_id: 'ORDER_123',
+  description: 'Purchase reward'
+});
+
+// Preview redemption (check before confirming)
+const preview = await client.loyaltyPoints.previewRedeem({
+  customer_id: customerId,
+  points_to_redeem: 100
+});
+// Returns: points_value, max_redeemable, amount_discount
+
+// Confirm redemption
+const redeem = await client.loyaltyPoints.commitRedeem({
+  customer_id: customerId,
+  points_to_redeem: 100,
+  reference_id: 'BILL_456'
+});
+
+// Reverse transaction (if needed)
+await client.loyaltyPoints.reverse({
+  transaction_id: transactionId,
+  reason: 'Customer return',
+  reference_id: 'RETURN_123'
+});
+
+// Get wallet balance
+const balance = await client.loyaltyWallet.balance({
+  customer_id: customerId
+});
+
+// Recalculate balance from ledger
+const recalc = await client.loyaltyWallet.recalculate({
+  customer_id: customerId
+});
+```
+
+### Vouchers
+
+```typescript
+// Create voucher batch
+const batch = await client.loyaltyVouchers.createBatch({
+  name: 'Grand Opening Promo',
+  type: 'PERCENT',  // or 'FIXED'
+  value: 10,
+  quantity: 100,
+  valid_from: '2024-06-01',
+  valid_until: '2024-12-31',
+  min_purchase: 50.00,
+  max_discount: 25.00
+});
+
+// List voucher batches
+const batches = await client.loyaltyVouchers.listBatches();
+
+// Issue voucher to customer
+const issue = await client.loyaltyVouchers.issue({
+  voucher_batch_id: batchId,
+  customer_id: customerId,
+  delivered_via: 'email',  // or 'sms'
+  reference_id: 'PROMO_001'
+});
+
+// Redeem voucher
+const redeem = await client.loyaltyVouchers.redeem({
+  code: 'VOUCHER_A1B2C3D4E5F6',
+  customer_id: customerId,
+  purchase_amount: 75.00,
+  reference_id: 'ORDER_789'
+});
+
+// Get voucher details
+const voucher = await client.loyaltyVouchers.get('VOUCHER_A1B2C3D4E5F6');
 ```
 
 ## Error Handling
