@@ -1,7 +1,7 @@
 /**
  * Loyalty Wallet resource
  */
-import { LoyaltyHttpClient } from '../loyaltyHttpClient';
+import { LoyaltyHttpClient } from '../../loyaltyHttpClient';
 
 export class Wallet {
   constructor(private readonly httpClient: LoyaltyHttpClient) {}

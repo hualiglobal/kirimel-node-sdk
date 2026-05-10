@@ -1,7 +1,7 @@
 /**
  * Loyalty Customers resource
  */
-import { LoyaltyHttpClient } from '../loyaltyHttpClient';
+import { LoyaltyHttpClient } from '../../loyaltyHttpClient';
 
 export class Customers {
   constructor(private readonly httpClient: LoyaltyHttpClient) {}

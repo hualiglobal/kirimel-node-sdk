@@ -2,7 +2,7 @@
  * KiriMel Node.js SDK Client
  */
 import { HttpClient, HttpClientConfig } from './httpClient';
-import { LoyaltyHttpClient, LoyaltyHttpClientConfig } from './loyaltyHttpClient';
+import { LoyaltyHttpClient } from './loyaltyHttpClient';
 import { Campaigns } from './resources/Campaigns';
 import { Subscribers } from './resources/Subscribers';
 import { Lists } from './resources/Lists';

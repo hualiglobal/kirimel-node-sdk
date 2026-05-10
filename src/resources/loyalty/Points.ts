@@ -1,7 +1,7 @@
 /**
  * Loyalty Points resource
  */
-import { LoyaltyHttpClient } from '../loyaltyHttpClient';
+import { LoyaltyHttpClient } from '../../loyaltyHttpClient';
 
 export class Points {
   constructor(private readonly httpClient: LoyaltyHttpClient) {}

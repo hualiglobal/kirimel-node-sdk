@@ -27,7 +27,7 @@ export class LoyaltyHttpClient {
   private readonly clientSecret: string;
   private readonly timeout: number;
   private readonly retries: number;
-  private logger?: any;
+  // private logger?: any;
 
   constructor(config: LoyaltyHttpClientConfig = {}) {
     this.baseUrl = (config.baseUrl || 'https://kirimel.com').replace(/\/$/, '');
@@ -35,7 +35,7 @@ export class LoyaltyHttpClient {
     this.clientSecret = config.clientSecret || process.env.KIRIMEL_LOYALTY_CLIENT_SECRET || '';
     this.timeout = config.timeout || 30000;
     this.retries = config.retries || 3;
-    this.logger = config.logger;
+    // this.logger = config.logger;
 
     if (!this.clientKey || !this.clientSecret) {
       throw new AuthenticationException(
