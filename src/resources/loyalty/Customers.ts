@@ -22,6 +22,10 @@ export class Customers {
     return this.httpClient.post('/api/loyalty/customers/lookup', data);
   }
 
+  public async lookupByEmail(email: string): Promise<any> {
+    return this.httpClient.get('/api/loyalty/customers/lookup-by-email', { email });
+  }
+
   public async get(customerId: string): Promise<any> {
     return this.httpClient.get(`/api/loyalty/customers/${customerId}`);
   }
