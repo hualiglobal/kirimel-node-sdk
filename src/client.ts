@@ -21,15 +21,15 @@ import { Wallet } from './resources/loyalty/Wallet';
 export interface ClientConfig extends HttpClientConfig {
   logger?: any;
   // Loyalty API credentials
-  clientKey?: string;
-  clientSecret?: string;
+  apiKey?: string;
+  keySecret?: string;
 }
 
 export class Client {
   private readonly httpClient: HttpClient;
   private readonly loyaltyBaseUrl: string;
-  private readonly loyaltyClientKey?: string;
-  private readonly loyaltyClientSecret?: string;
+  private readonly loyaltyApiKey?: string;
+  private readonly loyaltyKeySecret?: string;
   private readonly timeout: number;
   private readonly retries: number;
   private logger?: any;
@@ -64,8 +64,8 @@ export class Client {
 
     // Store loyalty config for lazy initialization
     this.loyaltyBaseUrl = (config.baseUrl || 'https://kirimel.com/api').replace('/api', '');
-    this.loyaltyClientKey = config.clientKey || process.env.KIRIMEL_LOYALTY_CLIENT_KEY;
-    this.loyaltyClientSecret = config.clientSecret || process.env.KIRIMEL_LOYALTY_CLIENT_SECRET;
+    this.loyaltyApiKey = config.apiKey || process.env.KIRIMEL_LOYALTY_API_KEY;
+    this.loyaltyKeySecret = config.keySecret || process.env.KIRIMEL_LOYALTY_KEY_SECRET;
     this.timeout = config.timeout || 30000;
     this.retries = config.retries || 3;
     this.logger = config.logger;
@@ -74,8 +74,8 @@ export class Client {
   private initLoyaltyClient(): LoyaltyHttpClient {
     if (!this._loyaltyHttpClient) {
       this._loyaltyHttpClient = new LoyaltyHttpClient({
-        clientKey: this.loyaltyClientKey,
-        clientSecret: this.loyaltyClientSecret,
+        apiKey: this.loyaltyApiKey,
+        keySecret: this.loyaltyKeySecret,
         baseUrl: this.loyaltyBaseUrl,
         timeout: this.timeout,
         retries: this.retries,
