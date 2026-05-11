@@ -6,8 +6,8 @@ import { createHmac } from 'crypto';
 import { ApiException, AuthenticationException } from './exceptions';
 
 export interface LoyaltyHttpClientConfig {
-  clientKey?: string;
-  clientSecret?: string;
+  apiKey?: string;
+  keySecret?: string;
   baseUrl?: string;
   timeout?: number;
   retries?: number;
@@ -23,24 +23,24 @@ interface RequestOptions {
 
 export class LoyaltyHttpClient {
   private readonly baseUrl: string;
-  private readonly clientKey: string;
-  private readonly clientSecret: string;
+  private readonly apiKey: string;
+  private readonly keySecret: string;
   private readonly timeout: number;
   private readonly retries: number;
   // private logger?: any;
 
   constructor(config: LoyaltyHttpClientConfig = {}) {
     this.baseUrl = (config.baseUrl || 'https://kirimel.com').replace(/\/$/, '');
-    this.clientKey = config.clientKey || process.env.KIRIMEL_LOYALTY_CLIENT_KEY || '';
-    this.clientSecret = config.clientSecret || process.env.KIRIMEL_LOYALTY_CLIENT_SECRET || '';
+    this.apiKey = config.apiKey || process.env.KIRIMEL_LOYALTY_API_KEY || '';
+    this.keySecret = config.keySecret || process.env.KIRIMEL_LOYALTY_KEY_SECRET || '';
     this.timeout = config.timeout || 30000;
     this.retries = config.retries || 3;
     // this.logger = config.logger;
 
-    if (!this.clientKey || !this.clientSecret) {
+    if (!this.apiKey || !this.keySecret) {
       throw new AuthenticationException(
-        'Loyalty API requires both client_key and client_secret. ' +
-        'Set KIRIMEL_LOYALTY_CLIENT_KEY and KIRIMEL_LOYALTY_CLIENT_SECRET environment variables.',
+        'Loyalty API requires both api_key and key_secret. ' +
+        'Set KIRIMEL_LOYALTY_API_KEY and KIRIMEL_LOYALTY_KEY_SECRET environment variables.',
         401
       );
     }
@@ -94,7 +94,7 @@ export class LoyaltyHttpClient {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'User-Agent': 'KiriMel-Node-SDK/2.0.0',
-      'X-Client-Key': this.clientKey,
+      'X-API-Key': this.apiKey,
       'X-Timestamp': timestamp,
       'X-Signature': signature,
     };
@@ -134,7 +134,7 @@ export class LoyaltyHttpClient {
 
   private calculateSignature(timestamp: string, payload: string): string {
     const signingString = `${timestamp}.${payload}`;
-    const signature = createHmac('sha256', this.clientSecret)
+    const signature = createHmac('sha256', this.keySecret)
       .update(signingString)
       .digest('hex');
     return signature;
