@@ -436,17 +436,21 @@ The Loyalty API uses HMAC SHA256 signature authentication for secure POS integra
 ### Authentication
 
 ```typescript
-// Email API credentials (required)
-const client = new Client({
-  apiKey: 'sk_test_xxx'
-});
+// Method 1: API Key (recommended for Email API only)
+const client = new Client({ apiKey: 'sk_test_xxx' });
 
-// Loyalty API credentials (optional - only if using loyalty features)
+// Method 2: Environment variable
+// Set KIRIMEL_API_KEY=sk_test_xxx in your environment
+const client = new Client();
+
+// Method 3: For Loyalty API, use environment variables
+// Set these in your environment:
+//   KIRIMEL_LOYALTY_API_KEY=kl_test_xxx
+//   KIRIMEL_LOYALTY_KEY_SECRET=your_secret
 const client = new Client({
-  apiKey: 'sk_test_xxx',
-  clientKey: 'cli_test_xxx',        // Or KIRIMEL_LOYALTY_CLIENT_KEY env var
-  clientSecret: 'your_secret_here'  // Or KIRIMEL_LOYALTY_CLIENT_SECRET env var
+  keySecret: 'your_secret_here'  // Only pass keySecret if not using env var
 });
+```
 ```
 
 ### Customers
