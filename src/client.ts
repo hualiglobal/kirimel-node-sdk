@@ -8,6 +8,7 @@ import { Subscribers } from './resources/Subscribers';
 import { Lists } from './resources/Lists';
 import { Segments } from './resources/Segments';
 import { Templates } from './resources/Templates';
+import { Email } from './resources/Email';
 import { Forms } from './resources/Forms';
 import { Conversions } from './resources/Conversions';
 import { LandingPages } from './resources/LandingPages';
@@ -45,6 +46,7 @@ export class Client {
   private _landingPages?: LandingPages;
   private _workflows?: Workflows;
   private _webhooks?: Webhooks;
+  private _email?: Email;
 
   // Loyalty API resources
   private _loyaltyHttpClient?: LoyaltyHttpClient;
@@ -153,6 +155,13 @@ export class Client {
       this._webhooks = new Webhooks(this.httpClient);
     }
     return this._webhooks;
+  }
+
+  public get email(): Email {
+    if (!this._email) {
+      this._email = new Email(this.httpClient);
+    }
+    return this._email;
   }
 
   // Loyalty API resources

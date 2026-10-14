@@ -429,6 +429,28 @@ const nodeTypes = await client.workflows.nodeTypes();
 const data = await client.workflows.getData(id);
 ```
 
+### Email
+
+```typescript
+// Send transactional email
+const result = await client.email.send({
+  to: 'customer@example.com',
+  subject: 'Welcome!',
+  html: '<h1>Hello</h1>',
+  from_email: 'notifications@your-domain.com', // optional per-send override (must be verified)
+  from_name: 'Your Brand',
+});
+
+// Get send quota
+const quota = await client.email.quota();
+
+// Get verified sender emails/domains
+const verified = await client.email.verified();
+
+// Request verification for a new sender address
+await client.email.verify('sender@your-domain.com');
+```
+
 ## Loyalty API
 
 The Loyalty API uses HMAC SHA256 signature authentication for secure POS integration. The SDK handles signature calculation automatically.
